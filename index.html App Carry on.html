@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hot Dogs Artesanales - Humacao</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Stardos+Stencil:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Stardos Stencil', cursive;
+            background-color: #fdf5e6; 
+            color: #d11211; 
+            margin: 0; 
+            padding: 20px; 
+            background-image: url('data:image/svg+xml;utf8,<svg width="40" height="40" xmlns="http://www.w3.org/2000/svg"><g fill-rule="evenodd"><g fill="%23d11211" fill-opacity="0.05"><path d="M0 0h20v20H0V0zm20 20h20v20H20V20z"/></g></g></svg>');
+        }
+        .container {
+            background-color: #fcf6e6;
+            border: 15px solid #d11211;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 10px 10px 0 #d11211, 20px 20px 0 rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            border-bottom: 5px solid #0aa1ad;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+        }
+        .title {
+            font-family: 'Anton', sans-serif;
+            font-size: 50px;
+            color: #d11211;
+            margin: 0;
+            text-transform: uppercase;
+        }
+        .subtitle {
+            font-size: 20px;
+            color: #d11211;
+            margin: 0;
+            background-color: #0aa1ad;
+            color: white;
+            padding: 5px 15px;
+            display: inline-block;
+            border-radius: 10px;
+        }
+        .section-title {
+            font-size: 28px;
+            color: #d11211;
+            text-transform: uppercase;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .section-title span { background: #fdf5e6; padding: 0 10px; position: relative; z-index: 1; }
+        .section-title::before, .section-title::after { content: ""; flex: 1; height: 3px; background: #d11211; }
+        
+        .menu-item {
+            margin-bottom: 20px;
+            border-bottom: 2px dashed #d11211;
+            padding-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .item-text { width: 65%; text-align: left; }
+        .item-price { font-size: 22px; color: #d11211; width: 15%; text-align: center; font-weight: bold; }
+        
+        .action-container {
+            display: flex;
+            align-items: center;
+            width: 20%;
+            justify-content: flex-end;
+        }
+        .item-quantity {
+            width: 50px;
+            padding: 8px;
+            border-radius: 10px;
+            border: 3px solid #d11211;
+            background-color: #fcf6e6;
+            color: #d11211;
+            font-family: 'Stardos Stencil', cursive;
+            font-size: 18px;
+            text-align: center;
+        }
+        
+        select, input {
+            padding: 12px;
+            width: 100%;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            border: 3px solid #d11211;
+            font-family: 'Stardos Stencil', cursive;
+            font-size: 16px;
+            background-color: #fcf6e6;
+            color: #d11211;
+            box-sizing: border-box;
+        }
+        
+        .select-wrapper {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        button.btn-order {
+            font-family: 'Anton', sans-serif;
+            background-color: #d11211;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 22px;
+            margin-top: 20px;
+            width: 100%;
+            text-transform: uppercase;
+            box-shadow: 5px 5px 0 rgba(0,0,0,0.2);
+            transition: transform 0.1s ease;
+            box-sizing: border-box;
+        }
+        button.btn-order:hover {
+            background-color: #ae0f0f;
+        }
+        button.btn-order:active {
+            transform: scale(0.97);
+        }
+        
+        #order-summary {
+            background-color: #fdf5e6;
+            border: 3px solid #0aa1ad;
+            padding: 15px;
+            border-radius: 15px;
+            margin-top: 30px;
+            display: none;
+            text-align: left;
+        }
+        #summary-list { list-style: none; padding: 0; }
+        #summary-list li {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dotted #ccc;
+            padding: 5px 0;
+        }
+        #total-price { font-size: 28px; color: #d11211; margin-top: 10px; text-align: center;}
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1 class="title">Hot Dogs Artesanales</h1>
+        <p class="subtitle">Humacao, Puerto Rico</p>
+    </div>
+
+    <div class="section-title"><span>Nuestro Menú</span></div>
+
+    <div class="menu-item">
+        <div class="item-text">
+            <b>Hot Dog Sencillo</b><br>
+            <small>Salchicha, pan suave y tus salsas favoritas.</small>
+        </div>
+        <div class="item-price">$3.00</div>
+        <div class="action-container">
+            <input type="number" id="qty-sencillo" class="item-quantity" value="0" min="0" onchange="handleQuantityChange('Hot Dog Sencillo', 3.00, 'qty-sencillo')">
+        </div>
+    </div>
+    
+    <div class="menu-item">
+        <div class="item-text">
+            <b>Hot Dog con Carne Molida</b><br>
+            <small>Nuestro clásico hot dog acompañado de deliciosa carne molida sazonada.</small>
+        </div>
+        <div class="item-price">$4.50</div>
+        <div class="action-container">
+            <input type="number" id="qty-carne" class="item-quantity" value="0" min="0" onchange="handleQuantityChange('Hot Dog con Carne Molida', 4.50, 'qty-carne')">
+        </div>
+    </div>
+    
+    <div class="menu-item">
+        <div class="item-text">
+            <b>Hot Dog con Pollo</b><br>
+            <small>Hot dog con pollo desmenuzado y sazonado al estilo de la casa.</small>
+        </div>
+        <div class="item-price">$4.50</div>
+        <div class="action-container">
+            <input type="number" id="qty-pollo" class="item-quantity" value="0" min="0" onchange="handleQuantityChange('Hot Dog con Pollo', 4.50, 'qty-pollo')">
+        </div>
+    </div>
+    
+    <div class="menu-item">
+        <div class="item-text">
+            <b>Hot Dog con Todo</b><br>
+            <small>La combinación perfecta: carne molida + pollo.</small>
+        </div>
+        <div class="item-price">$5.50</div>
+        <div class="action-container">
+            <input type="number" id="qty-todo" class="item-quantity" value="0" min="0" onchange="handleQuantityChange('Hot Dog con Todo', 5.50, 'qty-todo')">
+        </div>
+    </div>
+
+    <div class="section-title"><span>Bebidas</span></div>
+    
+    <div class="menu-item">
+        <div class="item-text"><b>Agua</b></div>
+        <div class="item-price">$1.00</div>
+        <div class="action-container">
+            <input type="number" id="qty-agua" class="item-quantity" value="0" min="0" onchange="handleQuantityChange('Agua', 1.00, 'qty-agua')">
+        </div>
+    </div>
+    
+    <div class="select-wrapper">
+        <select id="bebida-refresco" onchange="handleDrinkSelection('bebida-refresco', 1.50, 'qty-refresco')">
+            <option value="" disabled selected>Escoge tu Refresco ($1.50)</option>
+            <option value="Pepsi">Pepsi</option>
+            <option value="Sprite">Sprite</option>
+            <option value="Malta">Malta</option>
+            <option value="Kola Champagne">Kola Champagne</option>
+            <option value="Coco Rico">Coco Rico</option>
+        </select>
+        <div class="action-container" style="width: 30%;">
+            <input type="number" id="qty-refresco" class="item-quantity" value="1" min="1" style="display:none;">
+        </div>
+    </div>
+    
+    <div class="menu-item" style="margin-top: 15px;">
+        <div class="item-text"><b>Jugos</b></div>
+        <div class="item-price">$1.50</div>
+        <div class="action-container">
+            <input type="number" id="qty-jugos" class="item-quantity" value="0" min="0" onchange="handleQuantityChange('Jugos', 1.50, 'qty-jugos')">
+        </div>
+    </div>
+
+    <div class="section-title"><span>Extras</span></div>
+    
+    <div class="menu-item">
+        <div class="item-text"><b>Queso Adicional</b></div>
+        <div class="item-price">$0.50</div>
+        <div class="action-container">
+            <input type="number" id="qty-queso" class="item-quantity" value="0" min="0" onchange="handleQuantityChange('Queso Adicional', 0.50, 'qty-queso')">
+        </div>
+    </div>
+    <div class="menu-item">
+        <div class="item-text"><b>Bacon Adicional</b></div>
+        <div class="item-price">$1.00</div>
+        <div class="action-container">
+            <input type="number" id="qty-bacon" class="item-quantity" value="0" min="0" onchange="handleQuantityChange('Bacon Adicional', 1.00, 'qty-bacon')">
+        </div>
+    </div>
+    <div class="menu-item">
+        <div class="item-text"><b>Salsa Especial</b></div>
+        <div class="item-price">$0.50</div>
+        <div class="action-container">
+            <input type="number" id="qty-salsa" class="item-quantity" value="0" min="0" onchange="handleQuantityChange('Salsa Especial', 0.50, 'qty-salsa')">
+        </div>
+    </div>
+
+    <div class="section-title"><span>Tu Orden</span></div>
+    <input type="text" id="nombre-cliente" placeholder="Nombre para recoger" required>
+    
+    <button class="btn-order" onclick="processOrder()">Confirmar Orden</button>
+    
+    <div id="order-summary">
+        <ul id="summary-list"></ul>
+        <div id="total-price">Total: $0.00</div>
+        <br>
+        <p style="text-align: center;">Realiza el pago por <b>ATH Móvil al: 787-914-7081</b><br><br>
+        Recogido estimado: <b>15 min</b>.</p>
+    </div>
+
+</div>
+
+<script>
+    let order = [];
+    let totalPrice = 0;
+
+    function handleQuantityChange(name, price, qtyInputId) {
+        const quantity = parseInt(document.getElementById(qtyInputId).value) || 0;
+        
+        // Buscar si ya existe en la orden
+        const existingItemIndex = order.findIndex(item => item.name === name);
+        
+        if (quantity > 0) {
+            if (existingItemIndex !== -1) {
+                // Actualizar cantidad directamente al valor del input
+                order[existingItemIndex].quantity = quantity;
+            } else {
+                // Añadir nuevo
+                order.push({ name, price, quantity });
+            }
+        } else {
+            // Si baja a 0, remover del arreglo de la orden
+            if (existingItemIndex !== -1) {
+                order.splice(existingItemIndex, 1);
+            }
+        }
+        
+        updateSummary();
+    }
+    
+    function handleDrinkSelection(selectId, price, qtyInputId) {
+        const selectElement = document.getElementById(selectId);
+        const selectedDrinkText = selectElement.options[selectElement.selectedIndex].text;
+        
+        if(selectElement.value === "") return;
+        
+        const quantity = parseInt(document.getElementById(qtyInputId).value) || 1;
+        const fullName = "Refresco: " + selectedDrinkText;
+        
+        const existingItemIndex = order.findIndex(item => item.name === fullName);
+        
+        if (existingItemIndex !== -1) {
+            order[existingItemIndex].quantity += quantity;
+        } else {
+            order.push({ name: fullName, price, quantity });
+        }
+        
+        updateSummary();
+        selectElement.selectedIndex = 0; // Reiniciar dropdown para permitir pedir otra
+    }
+
+    function updateSummary() {
+        const summaryList = document.getElementById('summary-list');
+        summaryList.innerHTML = '';
+        totalPrice = 0;
+        
+        order.forEach(item => {
+            const listItem = document.createElement('li');
+            const itemTotal = item.price * item.quantity;
+            
+            listItem.innerHTML = `<span>${item.quantity}x ${item.name}</span> <span>$${itemTotal.toFixed(2)}</span>`;
+            summaryList.appendChild(listItem);
+            totalPrice += itemTotal;
+        });
+        
+        document.getElementById('total-price').innerText = `Total: $${totalPrice.toFixed(2)}`;
+    }
+
+    function processOrder() {
+        const name = document.getElementById('nombre-cliente').value;
+        if (!name) { alert("Por favor, ingresa tu nombre"); return; }
+        if (order.length === 0) { alert("¡No has añadido nada a tu orden!"); return; }
+        
+        document.getElementById('order-summary').style.display = 'block';
+        alert(`¡Gracias por tu orden, ${name}! Por favor, paga el total de $${totalPrice.toFixed(2)} vía ATH Móvil al 787-914-7081.`);
+        
+        console.log(`NUEVA ORDEN DE: ${name}`);
+        order.forEach(item => console.log(`- ${item.quantity}x ${item.name}`));
+        console.log(`TOTAL: $${totalPrice.toFixed(2)}`);
+    }
+</script>
+</body>
+</html>
